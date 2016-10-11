@@ -1,0 +1,28 @@
+language: android
+jdk: openjdk7
+sudo: false
+android:
+  components:
+  - tools
+  - platform-tools
+  - build-tools-23.0.2
+  - android-23
+  - extra-google-m2repository
+  - extra-android-m2repository
+git:
+  submodules: false
+before_install:
+- chmod +x gradlew
+script:
+- "./gradlew assembleDebug"
+before_deploy:
+- mv app/build/outputs/apk/app-debug.apk app/build/outputs/apk/greenDAO3Demo.apk
+deploy:
+  provider: releases
+  api_key:
+    secure: z6muHPCorrGCD8ML3dCT6U6a8LJZhqUh36RQYS3d0pUGPzcU5HsDqsV+0FWNQfdiHCF3qRQIYFUACc1WU37/5dXX5ph7V08c29/heoZMv9oq4gEZt9UsYfJZDjBcnBnfVAXf84bOD0DuF71PYEBvN4sDJH2KTnHNZvFNJATXn3MeZsxJLbPEY3Ob7IfCDZfEC2D3RjEzK811x+sknl7HPUuoth/Ld42VchV4AYl1tpyGp9XUib6zbD+Xym8amg2hDYfmq8VLoySzY0y4rz+Dj4e2IfwBRST72kHPqdVzcVWIkm6H2iHMwD3bvEZxcoR8ZWYcTJ87NB7fQdUerxDq93HJX36qhm3SW7NYl98FyIYQ5xcyQnHfquAKjogzUNwDh4+v60fwI5xNJkPYJbv5tGEugTUfkutqpfGoOpZIaiHm1/a+h3izOs3bTrZ0v5DxR1T4ivIXZ/qLwaF8S/WKxPtMSabi5WRnEsDgbAFgXk+rZpLjZKIXEmWiscoKZgG7LofMgtd5q1zwfWWQgesZG7rh8buftNfA4tHlzxlX9/AFxVoHltVemQ5zqow2qNmBZ71S73q2qD3hQIVrThCKXiDZY/dT5zfAfKSDEWcS7M/BOVeRtAvuxyPG2GDFPuRY2VRkRseew1dYPb0GP2MzQIKzTvZ3GH/meMUrd0a8R+s=
+  file: GreenDAO3_Demo
+  on:
+    repo: jp1017/GreenDAO3_Demo
+    branch: update
+after_deploy: 

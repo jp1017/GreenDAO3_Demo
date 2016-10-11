@@ -1,5 +1,7 @@
 # greenDAO3 数据库配置、增删改查、升级
 
+[![Build Status](https://travis-ci.org/jp1017/GreenDAO3_Demo.svg?branch=master)](https://travis-ci.org/jp1017/GreenDAO3_Demo)
+
 ## 配置
 ---
 
@@ -145,8 +147,6 @@ public class MyOpenHelper extends DaoMaster.OpenHelper {
 }
 ```
 
-这个主要用于数据库的升级，请看下一篇文章: []()
-
 2 基础的泛型 BaseDbHelper, 封装基本增删改查方法，具体看代码吧
 
 3 实现类，有几个实体类就有几个实现类，这里是 StudentHelper, 仅仅一个构造方法即可
@@ -252,5 +252,6 @@ public void onUpgrade(Database db, int oldVersion, int newVersion) {
 
 运行代码后，再添加三个数据，我们看下界面及数据库内容：
 
-<img src="http://7xlah4.com1.z0.glb.clouddn.com/2016-10-11-16-06-26-262_com.speedsoftw.png" width="320"/> <img src="http://7xlah4.com1.z0.glb.clouddn.com/2016-10-11-16-15-31-503_com.speedsoftw.png" width="320"/>
+<img src="http://7xlah4.com1.z0.glb.clouddn.com/2016-10-11-16-15-21-621_com.inst.green.png" width="320"/> <img src="http://7xlah4.com1.z0.glb.clouddn.com/2016-10-11-16-15-31-503_com.speedsoftw.png" width="320"/>
 
+代码已上传至 GitHub：[GreenDAO3_Demo](https://github.com/jp1017/GreenDAO3_Demo/tree/update)
