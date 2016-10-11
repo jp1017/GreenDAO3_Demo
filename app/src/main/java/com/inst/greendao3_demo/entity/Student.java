@@ -15,9 +15,21 @@
 
 package com.inst.greendao3_demo.entity;
 
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.TextView;
+
+import com.inst.greendao3_demo.R;
+import com.mikepenz.fastadapter.items.AbstractItem;
+
 import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
+
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * 文 件 名: Student
@@ -30,13 +42,27 @@ import org.greenrobot.greendao.annotation.Generated;
  */
 
 @Entity
-public class Student {
+public class Student extends AbstractItem<Student, Student.ViewHolder> {
 
     @Id
-    private Long id;
-    private String name;
-    private String age;
-    private String number;
+    public Long id;
+    public String name;
+    public String age;
+    public String number;
+    public String score;
+
+    @Generated(hash = 1672075654)
+    public Student(Long id, String name, String age, String number, String score) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.number = number;
+        this.score = score;
+    }
+    @Generated(hash = 1556870573)
+    public Student() {
+    }
+
     public String getNumber() {
         return this.number;
     }
@@ -61,14 +87,46 @@ public class Student {
     public void setId(Long id) {
         this.id = id;
     }
-    @Generated(hash = 1277127786)
-    public Student(Long id, String name, String age, String number) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-        this.number = number;
+    public String getScore() {
+        return this.score;
     }
-    @Generated(hash = 1556870573)
-    public Student() {
+    public void setScore(String score) {
+        this.score = score;
+    }
+
+    @Override
+    public int getType() {
+        return R.id.rv_content_main;
+    }
+
+    @Override
+    public int getLayoutRes() {
+        return R.layout.item_rv_student;
+    }
+
+    @Override
+    public void bindView(ViewHolder holder, List payloads) {
+        super.bindView(holder, payloads);
+        holder.mTvId.setText(id + "");
+        holder.mTvName.setText(name);
+        holder.mTvAge.setText(age);
+        holder.mTvNumber.setText(number);
+        holder.mTvScore.setText(score);
+
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        protected final View view;
+        @BindView(R.id.tv_id) TextView mTvId;
+        @BindView(R.id.tv_name) TextView mTvName;
+        @BindView(R.id.tv_age) TextView mTvAge;
+        @BindView(R.id.tv_number) TextView mTvNumber;
+        @BindView(R.id.tv_score) TextView mTvScore;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            view = itemView;
+            ButterKnife.bind(this, view);
+        }
     }
 }

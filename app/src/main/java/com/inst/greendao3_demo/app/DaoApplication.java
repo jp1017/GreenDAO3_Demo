@@ -41,20 +41,18 @@
 ******************* End of Head **********************\
 */
 
-package com.inst.greendao3_demo.db;
+package com.inst.greendao3_demo.app;
 
-import android.content.Context;
+import android.app.Application;
 
-import com.inst.greendao3_demo.dao.DaoMaster;
-import com.inst.greendao3_demo.dao.StudentDao;
+import com.inst.greendao3_demo.BuildConfig;
+import com.inst.greendao3_demo.db.DbCore;
 import com.socks.library.KLog;
 
-import org.greenrobot.greendao.database.Database;
-
 /**
- * 文 件 名: MyOpenHelper
+ * 文 件 名: DaoApplication
  * 创 建 人: 蒋朋
- * 创建日期: 16-10-11 08:28
+ * 创建日期: 16-10-11 14:29
  * 邮    箱: jp19891017@gmail.com
  * 博    客: https://jp1017.github.io/
  * 描    述:
@@ -63,29 +61,17 @@ import org.greenrobot.greendao.database.Database;
  * 修改备注：
  */
 
-public class MyOpenHelper extends DaoMaster.OpenHelper {
-    public MyOpenHelper(Context context, String name) {
-        super(context, name);
-    }
-
-
+public class DaoApplication extends Application {
     @Override
-    public void onUpgrade(Database db, int oldVersion, int newVersion) {
-        KLog.w("db version update from " + oldVersion + " to " + newVersion);
+    public void onCreate() {
+        super.onCreate();
 
-        switch (oldVersion) {
-            case 1:
+        //初始化数据库
+        DbCore.init(this);
+        DbCore.enableQueryBuilderLog(); //开启调试 log
 
-                //不能先删除表，否则数据都木了
-//                StudentDao.dropTable(db, true);
-
-                StudentDao.createTable(db, true);
-
-                // 加入新字段 score
-                db.execSQL("ALTER TABLE 'STUDENT' ADD 'SCORE' TEXT;");
-
-                break;
-        }
+        //log管理
+        KLog.init(BuildConfig.DEBUG);
 
     }
 }

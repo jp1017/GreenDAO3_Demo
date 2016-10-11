@@ -23,7 +23,7 @@ android {
 
 //greendao配置
 greendao {
-    schemaVersion 1                             //版本号，升级时可配置
+    schemaVersion 2                             //版本号，升级时可配置
     daoPackage'com.inst.greendao3_demo.dao'     //包名
     targetGenDir'src/main/java'                 //生成目录
 }
@@ -33,9 +33,10 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:cardview-v7:24.2.1'
     compile 'org.greenrobot:greendao:3.1.1'
-    compile('com.mikepenz:fastadapter:1.8.0@aar') {
+    compile('com.mikepenz:fastadapter:1.8.2@aar') {
         transitive = true
     }
     compile 'com.jakewharton:butterknife:8.3.0'
     apt 'com.jakewharton:butterknife-compiler:8.3.0'
+    compile 'com.github.zhaokaiqiang.klog:library:1.5.0'
 }

@@ -36,7 +36,7 @@ public class DbUtil {
         return DbCore.getDaoSession().getStudentDao();
     }
 
-    public static StudentHelper getDriverService() {
+    public static StudentHelper getDriverHelper() {
         if (sStudentHelper == null) {
             sStudentHelper = new StudentHelper(getDriverDao());
         }

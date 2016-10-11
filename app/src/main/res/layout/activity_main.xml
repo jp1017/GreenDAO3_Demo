@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.inst.greendao3_demo.MainActivity">
+    tools:context="com.inst.greendao3_demo.ui.MainActivity">
 
 
         <android.support.v7.widget.Toolbar
