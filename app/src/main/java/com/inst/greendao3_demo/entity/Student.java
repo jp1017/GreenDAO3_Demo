@@ -15,21 +15,9 @@
 
 package com.inst.greendao3_demo.entity;
 
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.TextView;
-
-import com.inst.greendao3_demo.R;
-import com.mikepenz.fastadapter.items.AbstractItem;
-
 import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
-
-import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * 文 件 名: Student
@@ -42,7 +30,7 @@ import butterknife.ButterKnife;
  */
 
 @Entity
-public class Student extends AbstractItem<Student, Student.ViewHolder> {
+public class Student {
 
     @Id
     public Long id;
@@ -92,41 +80,5 @@ public class Student extends AbstractItem<Student, Student.ViewHolder> {
     }
     public void setScore(String score) {
         this.score = score;
-    }
-
-    @Override
-    public int getType() {
-        return R.id.rv_content_main;
-    }
-
-    @Override
-    public int getLayoutRes() {
-        return R.layout.item_rv_student;
-    }
-
-    @Override
-    public void bindView(ViewHolder holder, List payloads) {
-        super.bindView(holder, payloads);
-        holder.mTvId.setText(id + "");
-        holder.mTvName.setText(name);
-        holder.mTvAge.setText(age);
-        holder.mTvNumber.setText(number);
-        holder.mTvScore.setText(score);
-
-    }
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        protected final View view;
-        @BindView(R.id.tv_id) TextView mTvId;
-        @BindView(R.id.tv_name) TextView mTvName;
-        @BindView(R.id.tv_age) TextView mTvAge;
-        @BindView(R.id.tv_number) TextView mTvNumber;
-        @BindView(R.id.tv_score) TextView mTvScore;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            view = itemView;
-            ButterKnife.bind(this, view);
-        }
     }
 }

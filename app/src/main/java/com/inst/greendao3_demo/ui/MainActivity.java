@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.inst.greendao3_demo.R;
@@ -16,7 +17,10 @@ import com.inst.greendao3_demo.dao.StudentDao;
 import com.inst.greendao3_demo.db.DbUtil;
 import com.inst.greendao3_demo.db.StudentHelper;
 import com.inst.greendao3_demo.entity.Student;
-import com.mikepenz.fastadapter.adapters.FastItemAdapter;
+import com.mikepenz.fastadapter.commons.adapters.GenericFastItemAdapter;
+import com.mikepenz.fastadapter.items.GenericAbstractItem;
+import com.mikepenz.fastadapter.utils.Function;
+import com.mikepenz.fastadapter.utils.ViewHolderFactory;
 import com.socks.library.KLog;
 
 import org.greenrobot.greendao.query.Query;
@@ -31,16 +35,12 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
-    @BindView(R.id.bt_add)
-    Button mBtAdd;
-    @BindView(R.id.bt_minus)
-    Button mBtMinus;
-    @BindView(R.id.rv_main)
-    RecyclerView mRvMain;
+    @BindView(R.id.toolbar)     Toolbar mToolbar;
+    @BindView(R.id.bt_add)      Button mBtAdd;
+    @BindView(R.id.bt_minus)    Button mBtMinus;
+    @BindView(R.id.rv_main)     RecyclerView mRvMain;
 
-    private FastItemAdapter<Student> mFastAdapter;
+    private GenericFastItemAdapter<Student, StudentItem> mFastAdapter;
     private List<Student> mStudents;
     private List<Student> dbStudents;
 
@@ -60,7 +60,13 @@ public class MainActivity extends AppCompatActivity {
         //当前数据库版本
         KLog.w("db version: " + DaoMaster.SCHEMA_VERSION);
 
-        mFastAdapter = new FastItemAdapter<>();
+        mFastAdapter = new GenericFastItemAdapter<>(new Function<Student, StudentItem>() {
+            @Override
+            public StudentItem apply(Student student) {
+                return new StudentItem(student);
+            }
+        });
+
         mStudents = new ArrayList<>();
 
         mRandom = new Random();
@@ -93,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
             mStudents.add(item);
         }
-        mFastAdapter.add(mStudents);
+        mFastAdapter.addModel(mStudents);
 
         //获取age大于20的数据
         Query<Student> query = mHelper.queryBuilder()
@@ -120,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 stu.number = 6 + "" + (id + 1);
                 stu.score = mRandom.nextInt(100) + "";
 
-                mFastAdapter.add(stu);
+                mFastAdapter.addModel(stu);
 
                 //保存到数据库s
                 mHelper.save(stu);
@@ -134,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
                     mHelper.delete(s);
 
                     //更新界面
-                    mFastAdapter.remove(dbStudents.size() - 1);
+                    mFastAdapter.removeModel(dbStudents.size() - 1);
                 } else {
                     showToast("no student now");
                 }
@@ -156,6 +162,75 @@ public class MainActivity extends AppCompatActivity {
         } else {
             mToast.show();
         }
+    }
+
+
+    public class StudentItem extends GenericAbstractItem<Student, StudentItem, StudentItem.ViewHolder> {
+        //the static ViewHolderFactory which will be used to generate the ViewHolder for this Item
+        private final ViewHolderFactory<? extends ViewHolder> FACTORY = new ItemFactory();
+
+        public StudentItem(Student student) {
+            super(student);
+        }
+
+        @Override
+        public int getType() {
+            return R.id.rv_content_main;
+        }
+
+        @Override
+        public int getLayoutRes() {
+            return R.layout.item_rv_student;
+        }
+
+        @Override
+        public void bindView(ViewHolder holder, List payloads) {
+            super.bindView(holder, payloads);
+            holder.mTvId.setText(getModel().getId() + "");
+            holder.mTvName.setText(getModel().getName());
+            holder.mTvAge.setText(getModel().getAge());
+            holder.mTvNumber.setText(getModel().getNumber());
+            holder.mTvScore.setText(getModel().getScore());
+
+        }
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
+            protected final View view;
+            @BindView(R.id.tv_id) TextView mTvId;
+            @BindView(R.id.tv_name) TextView mTvName;
+            @BindView(R.id.tv_age) TextView mTvAge;
+            @BindView(R.id.tv_number) TextView mTvNumber;
+            @BindView(R.id.tv_score) TextView mTvScore;
+
+            public ViewHolder(View itemView) {
+                super(itemView);
+                view = itemView;
+                ButterKnife.bind(this, view);
+            }
+        }
+
+
+        /**
+         * our ItemFactory implementation which creates the ViewHolder for our adapter.
+         * It is highly recommended to implement a ViewHolderFactory as it is 0-1ms faster for ViewHolder creation,
+         * and it is also many many times more efficient if you define custom listeners on views within your item.
+         */
+        protected class ItemFactory implements ViewHolderFactory<ViewHolder> {
+            public ViewHolder create(View v) {
+                return new ViewHolder(v);
+            }
+        }
+
+        /**
+         * return our ViewHolderFactory implementation here
+         *
+         * @return
+         */
+        @Override
+        public ViewHolderFactory<? extends ViewHolder> getFactory() {
+            return FACTORY;
+        }
+
     }
 
 }
