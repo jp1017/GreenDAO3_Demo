@@ -15,3 +15,18 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+#异常文件重命名为SourceFile
+-renamesourcefileattribute SourceFile
+#保留行号
+-keepattributes SourceFile,LineNumberTable
+
+# #  ######## greenDao3.0混淆  ##########
+# # -------------------------------------------
+-dontwarn rx.**
+-keep class de.greenrobot.dao.** {*;}
+-dontwarn org.greenrobot.greendao.database.**
+-keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
+    public static java.lang.String TABLENAME;
+}
+-keep class **$Properties

@@ -247,7 +247,25 @@ public void onUpgrade(Database db, int oldVersion, int newVersion) {
 }
 ```
 
-### 4 测试
+### 4 加密
+---
+
+
+greenDAO 自带加密, 一行代码就搞定了, 需要添加一个加密库:
+
+```
+compile 'net.zetetic:android-database-sqlcipher:3.5.4'
+```
+
+然后在初始化 `daoMaster`　的时候
+
+```
+daoMaster = new DaoMaster(helper.getEncryptedReadableDb("password"));
+```
+
+后面是你的密码, 这样就搞定了, so easy!
+
+### 5 测试
 ---
 
 运行代码后，再添加三个数据，我们看下界面及数据库内容：

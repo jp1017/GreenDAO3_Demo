@@ -58,7 +58,7 @@ public class DbCore {
         if (daoMaster == null) {
             //此处不可用 DaoMaster.DevOpenHelper, 那是开发辅助类，我们要自定义一个，方便升级
             DaoMaster.OpenHelper helper = new MyOpenHelper(mContext, DB_NAME);
-            daoMaster = new DaoMaster(helper.getWritableDatabase());
+            daoMaster = new DaoMaster(helper.getEncryptedReadableDb("password"));
         }
         return daoMaster;
     }
